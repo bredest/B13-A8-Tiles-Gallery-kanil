@@ -12,16 +12,10 @@ export const metadata = {
 };
 
 const marqueeItems = [
-  "Italian Marble",
-  "Moroccan Zellige",
-  "Porcelain",
-  "Ceramic",
-  "Natural Slate",
-  "Terracotta",
-  "Glass Mosaic",
-  "Travertine",
-  "Encaustic Cement",
-  "Limestone",
+  "New Arrivals: Ceramic Blue Tile",
+  "Weekly Feature: Modern Geometric Patterns",
+  "Join the Community",
+  "Premium Selection",
 ];
 
 const features = [
@@ -83,10 +77,7 @@ export default function Home() {
             className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-slide-up"
             style={{ animationDelay: "0.1s" }}
           >
-            Discover{" "}
-            <span className="gradient-text">Beautiful</span>
-            <br />
-            Tiles for Every Space
+            Discover Your <span className="gradient-text">Perfect Aesthetic</span>
           </h1>
 
           <p
@@ -102,11 +93,11 @@ export default function Home() {
             style={{ animationDelay: "0.3s" }}
           >
             <Link
-              href="/tiles"
+              href="/all-tiles"
               id="hero-browse-btn"
               className="btn btn-primary btn-lg rounded-full px-8 gap-2 glow"
             >
-              Browse Gallery <FiArrowRight />
+              Browse Now <FiArrowRight />
             </Link>
             <a
               href="#featured"
@@ -156,7 +147,7 @@ export default function Home() {
             </h2>
           </div>
           <Link
-            href="/tiles"
+            href="/all-tiles"
             id="featured-view-all"
             className="btn btn-outline btn-sm rounded-full gap-2 self-start sm:self-auto"
           >
@@ -216,7 +207,7 @@ export default function Home() {
             Browse all 12 premium tiles, filter by material and availability, and find your perfect match today.
           </p>
           <Link
-            href="/tiles"
+            href="/all-tiles"
             id="cta-browse-all"
             className="btn btn-primary btn-lg rounded-full px-10 gap-2 glow"
           >

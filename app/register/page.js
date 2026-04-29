@@ -10,6 +10,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,12 +24,12 @@ export default function RegisterPage() {
     }
     setLoading(true);
     try {
-      const { error } = await signUp.email({ name, email, password });
+      const { error } = await signUp.email({ name, email, password, image: photoURL });
       if (error) {
         toast.error(error.message || "Registration failed.");
       } else {
-        toast.success("Account created! Welcome 🎉");
-        router.push("/");
+        toast.success("Account created! Please login.");
+        router.push("/login");
       }
     } catch {
       toast.error("Something went wrong. Please try again.");
@@ -98,6 +99,18 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Full name"
+                className="w-full pl-11 pr-4 py-3 rounded-xl bg-base-300 border border-white/10 text-sm focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all custom-input"
+              />
+            </div>
+
+            <div className="relative">
+              <FiUser size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/40" />
+              <input
+                id="register-photo"
+                type="url"
+                value={photoURL}
+                onChange={(e) => setPhotoURL(e.target.value)}
+                placeholder="Photo URL (optional)"
                 className="w-full pl-11 pr-4 py-3 rounded-xl bg-base-300 border border-white/10 text-sm focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all custom-input"
               />
             </div>

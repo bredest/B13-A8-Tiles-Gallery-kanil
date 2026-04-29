@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession, signOut } from "@/lib/auth-client";
+import { useSession, signOut, updateUser } from "@/lib/auth-client";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import tilesData from "@/data/tiles.json";
@@ -13,10 +13,16 @@ export default function ProfilePage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const [signingOut, setSigningOut] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [editImage, setEditImage] = useState("");
 
   useEffect(() => {
     if (!isPending && !session?.user) {
       router.push("/login");
+    } else if (session?.user) {
+      if (!editName) setEditName(session.user.name || "");
+      if (!editImage) setEditImage(session.user.image || "");
     }
   }, [isPending, session, router]);
 
@@ -24,7 +30,21 @@ export default function ProfilePage() {
     setSigningOut(true);
     await signOut();
     toast.success("Signed out successfully.");
-    router.push("/");
+    router.push("/login");
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setUpdating(true);
+    try {
+      const { error } = await updateUser({ name: editName, image: editImage });
+      if (error) throw error;
+      toast.success("Profile updated successfully!");
+    } catch (err) {
+      toast.error(err.message || "Failed to update profile.");
+    } finally {
+      setUpdating(false);
+    }
   };
 
   if (isPending || !session?.user) {
@@ -102,7 +122,7 @@ export default function ProfilePage() {
                 Sign Out
               </button>
 
-              <Link href="/tiles" className="btn btn-primary btn-sm rounded-full w-full gap-2">
+              <Link href="/all-tiles" className="btn btn-primary btn-sm rounded-full w-full gap-2">
                 <FiGrid size={14} /> Browse Tiles
               </Link>
             </div>
@@ -114,17 +134,39 @@ export default function ProfilePage() {
             {/* Account details */}
             <div className="glass-card rounded-3xl p-8">
               <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
-                <FiUser className="text-primary" /> Account Details
+                <FiUser className="text-primary" /> Update Information
               </h3>
 
-              <div className="flex flex-col gap-5">
+              <form onSubmit={handleUpdate} className="flex flex-col gap-5">
                 <div>
                   <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
                     Full Name
                   </label>
-                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3">
+                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-2 border border-white/5 focus-within:border-primary/50 transition-colors">
                     <FiUser size={15} className="text-base-content/40" />
-                    <span className="text-sm">{user.name}</span>
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      className="bg-transparent border-none outline-none text-sm w-full py-1"
+                      placeholder="Your name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
+                    Image URL
+                  </label>
+                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-2 border border-white/5 focus-within:border-primary/50 transition-colors">
+                    <FiGrid size={15} className="text-base-content/40" />
+                    <input
+                      type="url"
+                      value={editImage}
+                      onChange={(e) => setEditImage(e.target.value)}
+                      className="bg-transparent border-none outline-none text-sm w-full py-1"
+                      placeholder="Avatar image URL"
+                    />
                   </div>
                 </div>
 
@@ -132,7 +174,7 @@ export default function ProfilePage() {
                   <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
                     Email Address
                   </label>
-                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3">
+                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3 opacity-60">
                     <FiMail size={15} className="text-base-content/40" />
                     <span className="text-sm">{user.email}</span>
                   </div>
@@ -142,11 +184,21 @@ export default function ProfilePage() {
                   <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
                     Member Since
                   </label>
-                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3">
+                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3 opacity-60">
                     <FiCalendar size={15} className="text-base-content/40" />
                     <span className="text-sm">{joinDate}</span>
                   </div>
                 </div>
+
+                <button
+                  type="submit"
+                  disabled={updating}
+                  className="btn btn-primary btn-sm rounded-full w-full sm:w-auto self-start gap-2 mt-2 glow"
+                >
+                  {updating ? <span className="loading loading-spinner loading-xs" /> : null}
+                  Update Profile
+                </button>
+              </form>
               </div>
             </div>
 
@@ -170,19 +222,19 @@ export default function ProfilePage() {
             <div className="glass-card rounded-3xl p-8">
               <h3 className="font-semibold text-lg mb-5">Quick Links</h3>
               <div className="flex flex-wrap gap-3">
-                <Link href="/tiles" className="btn btn-outline btn-sm rounded-full border-white/15 hover:border-primary/40 hover:text-primary gap-2">
+                <Link href="/all-tiles" className="btn btn-outline btn-sm rounded-full border-white/15 hover:border-primary/40 hover:text-primary gap-2">
                   <FiGrid size={14} /> All Tiles
                 </Link>
-                <Link href="/tiles?search=marble" className="tag-pill cursor-pointer px-4 py-2 text-sm">
+                <Link href="/all-tiles?search=marble" className="tag-pill cursor-pointer px-4 py-2 text-sm">
                   #marble
                 </Link>
-                <Link href="/tiles?search=ceramic" className="tag-pill cursor-pointer px-4 py-2 text-sm">
+                <Link href="/all-tiles?search=ceramic" className="tag-pill cursor-pointer px-4 py-2 text-sm">
                   #ceramic
                 </Link>
-                <Link href="/tiles?search=luxury" className="tag-pill cursor-pointer px-4 py-2 text-sm">
+                <Link href="/all-tiles?search=luxury" className="tag-pill cursor-pointer px-4 py-2 text-sm">
                   #luxury
                 </Link>
-                <Link href="/tiles?search=mosaic" className="tag-pill cursor-pointer px-4 py-2 text-sm">
+                <Link href="/all-tiles?search=mosaic" className="tag-pill cursor-pointer px-4 py-2 text-sm">
                   #mosaic
                 </Link>
               </div>

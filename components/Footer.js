@@ -40,8 +40,8 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { href: "/", label: "Home" },
-                { href: "/tiles", label: "All Tiles" },
-                { href: "/profile", label: "My Profile" },
+                { href: "/all-tiles", label: "All Tiles" },
+                { href: "/my-profile", label: "My Profile" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -65,7 +65,7 @@ export default function Footer() {
                 (cat) => (
                   <li key={cat}>
                     <Link
-                      href={`/tiles?search=${cat.toLowerCase()}`}
+                      href={`/all-tiles?search=${cat.toLowerCase()}`}
                       className="text-sm text-base-content/60 hover:text-primary transition-colors"
                     >
                       {cat}

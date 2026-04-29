@@ -7,7 +7,7 @@ import { FiMenu, FiX, FiUser, FiLogOut, FiGrid } from "react-icons/fi";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/tiles", label: "All Tiles" },
+  { href: "/all-tiles", label: "All Tiles" },
 ];
 
 export default function Navbar() {
@@ -98,7 +98,7 @@ export default function Navbar() {
                 >
                   <li>
                     <Link
-                      href="/profile"
+                      href="/my-profile"
                       className="flex items-center gap-2 text-sm hover:text-primary"
                     >
                       <FiUser /> My Profile
@@ -165,7 +165,7 @@ export default function Navbar() {
           {session?.user ? (
             <>
               <Link
-                href="/profile"
+                href="/my-profile"
                 onClick={() => setMenuOpen(false)}
                 className="text-sm font-medium py-2 flex items-center gap-2 hover:text-primary"
               >

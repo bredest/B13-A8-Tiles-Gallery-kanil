@@ -55,7 +55,7 @@ export default function TileCard({ tile }) {
             <span className="text-xs text-base-content/40 ml-1">/m²</span>
           </div>
           <Link
-            href={`/tiles/${id}`}
+            href={`/tile/${id}`}
             className="btn btn-primary btn-sm rounded-full gap-1 group/btn"
           >
             Details
