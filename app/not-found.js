@@ -21,7 +21,7 @@ export default function NotFound() {
         <Link href="/" className="btn btn-primary rounded-full px-8">
           Back Home
         </Link>
-        <Link href="/tiles" className="btn btn-outline rounded-full px-8">
+        <Link href="/all-tiles" className="btn btn-outline rounded-full px-8">
           Browse Tiles
         </Link>
       </div>

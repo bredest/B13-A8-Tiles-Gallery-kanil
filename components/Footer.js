@@ -79,10 +79,10 @@ export default function Footer() {
           {/* Newsletter */}
           <div>
             <h4 className="font-semibold text-sm uppercase tracking-wider mb-4 text-base-content/50">
-              Newsletter
+              Newsletter & Contact
             </h4>
             <p className="text-sm text-base-content/50 mb-4">
-              Get notified about new arrivals and exclusive collections.
+              Get notified about new arrivals. Or contact us directly at <a href="mailto:hello@tilesgallery.com" className="text-primary">hello@tilesgallery.com</a>
             </p>
             <div className="flex gap-2">
               <input
@@ -91,6 +91,12 @@ export default function Footer() {
                 className="input input-bordered input-sm rounded-full flex-1 bg-base-300 border-white/10 text-sm custom-input"
               />
               <button className="btn btn-primary btn-sm rounded-full">→</button>
+            </div>
+            
+            <div className="mt-6">
+              <Link href="/contact" className="text-sm text-base-content/60 hover:text-primary transition-colors">
+                Contact Us
+              </Link>
             </div>
           </div>
         </div>

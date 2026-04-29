@@ -12,17 +12,12 @@ import {
 export default function ProfilePage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
+  const { data: session, isPending } = useSession();
   const [signingOut, setSigningOut] = useState(false);
-  const [updating, setUpdating] = useState(false);
-  const [editName, setEditName] = useState("");
-  const [editImage, setEditImage] = useState("");
 
   useEffect(() => {
     if (!isPending && !session?.user) {
       router.push("/login");
-    } else if (session?.user) {
-      if (!editName) setEditName(session.user.name || "");
-      if (!editImage) setEditImage(session.user.image || "");
     }
   }, [isPending, session, router]);
 
@@ -31,20 +26,6 @@ export default function ProfilePage() {
     await signOut();
     toast.success("Signed out successfully.");
     router.push("/login");
-  };
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setUpdating(true);
-    try {
-      const { error } = await updateUser({ name: editName, image: editImage });
-      if (error) throw error;
-      toast.success("Profile updated successfully!");
-    } catch (err) {
-      toast.error(err.message || "Failed to update profile.");
-    } finally {
-      setUpdating(false);
-    }
   };
 
   if (isPending || !session?.user) {
@@ -134,39 +115,17 @@ export default function ProfilePage() {
             {/* Account details */}
             <div className="glass-card rounded-3xl p-8">
               <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
-                <FiUser className="text-primary" /> Update Information
+                <FiUser className="text-primary" /> Account Details
               </h3>
 
-              <form onSubmit={handleUpdate} className="flex flex-col gap-5">
+              <div className="flex flex-col gap-5">
                 <div>
                   <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
                     Full Name
                   </label>
-                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-2 border border-white/5 focus-within:border-primary/50 transition-colors">
+                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3">
                     <FiUser size={15} className="text-base-content/40" />
-                    <input
-                      type="text"
-                      value={editName}
-                      onChange={(e) => setEditName(e.target.value)}
-                      className="bg-transparent border-none outline-none text-sm w-full py-1"
-                      placeholder="Your name"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
-                    Image URL
-                  </label>
-                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-2 border border-white/5 focus-within:border-primary/50 transition-colors">
-                    <FiGrid size={15} className="text-base-content/40" />
-                    <input
-                      type="url"
-                      value={editImage}
-                      onChange={(e) => setEditImage(e.target.value)}
-                      className="bg-transparent border-none outline-none text-sm w-full py-1"
-                      placeholder="Avatar image URL"
-                    />
+                    <span className="text-sm">{user.name}</span>
                   </div>
                 </div>
 
@@ -174,7 +133,7 @@ export default function ProfilePage() {
                   <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
                     Email Address
                   </label>
-                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3 opacity-60">
+                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3">
                     <FiMail size={15} className="text-base-content/40" />
                     <span className="text-sm">{user.email}</span>
                   </div>
@@ -184,22 +143,20 @@ export default function ProfilePage() {
                   <label className="text-xs font-semibold uppercase tracking-wider text-base-content/40 block mb-2">
                     Member Since
                   </label>
-                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3 opacity-60">
+                  <div className="flex items-center gap-3 bg-base-300/50 rounded-xl px-4 py-3">
                     <FiCalendar size={15} className="text-base-content/40" />
                     <span className="text-sm">{joinDate}</span>
                   </div>
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={updating}
-                  className="btn btn-primary btn-sm rounded-full w-full sm:w-auto self-start gap-2 mt-2 glow"
+                <Link
+                  href="/update-profile"
+                  className="btn btn-primary btn-sm rounded-full w-full sm:w-auto self-start gap-2 mt-4 glow"
                 >
-                  {updating ? <span className="loading loading-spinner loading-xs" /> : null}
-                  Update Profile
-                </button>
-              </form>
+                  Update Information
+                </Link>
               </div>
+            </div>            </div>
             </div>
 
             {/* Gallery stats */}

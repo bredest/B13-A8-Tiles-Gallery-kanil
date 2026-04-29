@@ -8,6 +8,7 @@ import { FiMenu, FiX, FiUser, FiLogOut, FiGrid } from "react-icons/fi";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/all-tiles", label: "All Tiles" },
+  { href: "/my-profile", label: "My Profile" },
 ];
 
 export default function Navbar() {
@@ -53,19 +54,22 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors duration-200 hover:text-primary ${
-                  pathname === link.href
-                    ? "text-primary"
-                    : "text-base-content/70"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              if (link.href === "/my-profile" && !session?.user) return null;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors duration-200 hover:text-primary ${
+                    pathname === link.href
+                      ? "text-primary"
+                      : "text-base-content/70"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             {isPending ? (
               <div className="skeleton w-20 h-8 rounded-full"></div>
@@ -150,18 +154,21 @@ export default function Navbar() {
         }`}
       >
         <div className="glass-card border-t border-white/10 px-4 py-4 flex flex-col gap-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className={`text-sm font-medium py-2 transition-colors hover:text-primary ${
-                pathname === link.href ? "text-primary" : "text-base-content/70"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            if (link.href === "/my-profile" && !session?.user) return null;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className={`text-sm font-medium py-2 transition-colors hover:text-primary ${
+                  pathname === link.href ? "text-primary" : "text-base-content/70"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           {session?.user ? (
             <>
               <Link

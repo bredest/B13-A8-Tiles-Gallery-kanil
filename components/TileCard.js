@@ -58,7 +58,7 @@ export default function TileCard({ tile }) {
             href={`/tile/${id}`}
             className="btn btn-primary btn-sm rounded-full gap-1 group/btn"
           >
-            Details
+            View Details
             <FiArrowRight
               size={14}
               className="group-hover/btn:translate-x-1 transition-transform"

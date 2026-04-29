@@ -1,4 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import Link from "next/link";
 import TileCard from "@/components/TileCard";
 import tilesData from "@/data/tiles.json";
@@ -9,13 +11,22 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const tile = tilesData.find((t) => t.id === params.id);
+  const { id } = await params;
+  const tile = tilesData.find((t) => t.id === id);
   if (!tile) return {};
   return { title: tile.title, description: tile.style };
 }
 
-export default function TileDetailPage({ params }) {
-  const tile = tilesData.find((t) => t.id === params.id);
+export default async function TileDetailPage({ params }) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/login");
+  }
+  const { id } = await params;
+  const tile = tilesData.find((t) => t.id === id);
   if (!tile) notFound();
 
   const { title, image, price, material, inStock, tags, style, creator, size, finish } = tile;
@@ -34,7 +45,7 @@ export default function TileDetailPage({ params }) {
   return (
     <div className="min-h-screen pt-24 pb-20 px-4 page-enter">
       <div className="max-w-7xl mx-auto">
-        <Link href="/tiles" id="tile-back-btn" className="inline-flex items-center gap-2 text-sm text-base-content/50 hover:text-primary transition-colors mb-8">
+        <Link href="/all-tiles" id="tile-back-btn" className="inline-flex items-center gap-2 text-sm text-base-content/50 hover:text-primary transition-colors mb-8">
           <FiArrowLeft size={16} /> Back to Gallery
         </Link>
 
@@ -74,7 +85,7 @@ export default function TileDetailPage({ params }) {
               <div className="flex items-center gap-2 flex-wrap mb-8">
                 <FiTag size={14} className="text-base-content/30" />
                 {tags.map((tag) => (
-                  <Link key={tag} href={`/tiles?search=${tag}`} className="tag-pill">#{tag}</Link>
+                  <Link key={tag} href={`/all-tiles?search=${tag}`} className="tag-pill">#{tag}</Link>
                 ))}
               </div>
 
@@ -82,7 +93,7 @@ export default function TileDetailPage({ params }) {
                 <button id="tile-enquire-btn" className="btn btn-primary rounded-full flex-1 glow" disabled={!inStock}>
                   {inStock ? "Enquire Now" : "Out of Stock"}
                 </button>
-                <Link href="/tiles" className="btn btn-outline rounded-full px-6 border-white/20 hover:border-primary/40">
+                <Link href="/all-tiles" className="btn btn-outline rounded-full px-6 border-white/20 hover:border-primary/40">
                   Back
                 </Link>
               </div>
