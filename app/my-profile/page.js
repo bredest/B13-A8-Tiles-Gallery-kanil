@@ -12,7 +12,6 @@ import {
 export default function ProfilePage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
-  const { data: session, isPending } = useSession();
   const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
@@ -156,7 +155,6 @@ export default function ProfilePage() {
                   Update Information
                 </Link>
               </div>
-            </div>            </div>
             </div>
 
             {/* Gallery stats */}
