@@ -1,11 +1,14 @@
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/components/AuthProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const outfitfont = Outfit({ 
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
 
 export const metadata = {
   title: {
@@ -24,11 +27,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="tilegallery">
-      <body className={`${inter.className} bg-base-100 text-base-content min-h-screen flex flex-col`}>
+    <html lang="en" data-theme="tilegallery" className={outfitfont.className} suppressHydrationWarning>
+      <body className={`${outfitfont.variable} min-h-screen flex flex-col`}>
         <AuthProvider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 w-full">{children}</main>
           <Footer />
           <Toaster
             position="top-right"

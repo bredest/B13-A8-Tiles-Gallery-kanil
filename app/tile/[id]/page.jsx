@@ -18,12 +18,13 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function TileDetailPage({ params }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    redirect("/login");
+  let session = null;
+  try {
+    session = await auth.api.getSession({
+      headers: await headers(),
+    });
+  } catch (error) {
+    console.error("Auth session error:", error);
   }
   const { id } = await params;
   const tile = tilesData.find((t) => t.id === id);

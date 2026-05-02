@@ -2,6 +2,7 @@ import Link from "next/link";
 import TileCard from "@/components/TileCard";
 import FeaturedSlider from "@/components/FeaturedSlider";
 import MarqueeText from "@/components/MarqueeText";
+import Banner from "@/components/Banner";
 import tilesData from "@/data/tiles.json";
 import { FiArrowRight, FiStar, FiShield, FiLayers } from "react-icons/fi";
 
@@ -49,7 +50,7 @@ export default function Home() {
   return (
     <div className="page-enter">
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden py-20">
         {/* Background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -68,20 +69,20 @@ export default function Home() {
         />
 
         {/* Content */}
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <span className="inline-block tag-pill mb-6 text-sm px-5 py-1.5 animate-fade-in">
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto py-32 flex flex-col items-center">
+          <span className="inline-block tag-pill mb-8 text-sm px-5 py-1.5 animate-fade-in">
             ✦ Premium Tile Collection
           </span>
 
           <h1
-            className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-slide-up"
+            className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-8 animate-slide-up"
             style={{ animationDelay: "0.1s" }}
           >
             Discover Your <span className="gradient-text">Perfect Aesthetic</span>
           </h1>
 
           <p
-            className="text-lg sm:text-xl text-base-content/70 max-w-2xl mx-auto mb-10 leading-relaxed animate-slide-up"
+            className="text-lg sm:text-xl text-base-content/70 max-w-2xl mx-auto mb-12 leading-relaxed animate-slide-up"
             style={{ animationDelay: "0.2s" }}
           >
             From Italian marble to Moroccan zellige — explore our hand-curated
@@ -89,46 +90,30 @@ export default function Home() {
           </p>
 
           <div
-            className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up"
+            className="flex flex-col sm:flex-row gap-6 justify-center animate-slide-up mb-16"
             style={{ animationDelay: "0.3s" }}
           >
             <Link
               href="/all-tiles"
               id="hero-browse-btn"
-              className="btn btn-primary btn-lg rounded-full px-8 gap-2 glow"
+              className="btn btn-primary btn-lg rounded-full px-10 gap-2 shadow-xl hover:shadow-primary/20"
             >
               Browse Now <FiArrowRight />
             </Link>
             <a
               href="#featured"
               id="hero-featured-btn"
-              className="btn btn-outline btn-lg rounded-full px-8 border-white/20 text-base-content hover:bg-white/10 hover:border-white/30"
+              className="btn btn-outline btn-lg rounded-full px-10 border-white/20 text-white hover:bg-white/10"
             >
               Featured Tiles
             </a>
           </div>
 
-          {/* Stats strip */}
-          <div
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-16 animate-slide-up"
-            style={{ animationDelay: "0.4s" }}
-          >
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                className="glass-card rounded-2xl py-4 px-3 text-center"
-              >
-                <div className="text-2xl font-bold gradient-text">{s.value}</div>
-                <div className="text-xs text-base-content/50 mt-1">{s.label}</div>
-              </div>
-            ))}
+          {/* Scroll indicator - now in flow */}
+          <div className="mt-12 flex flex-col items-center gap-3 opacity-40 animate-pulse pointer-events-none">
+            <span className="text-[10px] tracking-[0.3em] uppercase font-bold">Scroll</span>
+            <div className="w-px h-16 bg-gradient-to-b from-primary to-transparent" />
           </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-primary to-transparent animate-pulse" />
         </div>
       </section>
 
@@ -191,29 +176,8 @@ export default function Home() {
       </section>
 
       {/* ── CTA Banner ── */}
-      <section className="py-24 px-4">
-        <div className="max-w-4xl mx-auto text-center glass-card rounded-3xl p-16 relative overflow-hidden">
-          {/* background glow */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-
-          <p className="text-primary text-sm font-semibold uppercase tracking-widest mb-4">
-            Ready to transform your space?
-          </p>
-          <h2 className="font-display text-4xl font-bold mb-5">
-            Explore the Full Collection
-          </h2>
-          <p className="text-base-content/60 mb-8 max-w-xl mx-auto">
-            Browse all 12 premium tiles, filter by material and availability, and find your perfect match today.
-          </p>
-          <Link
-            href="/all-tiles"
-            id="cta-browse-all"
-            className="btn btn-primary btn-lg rounded-full px-10 gap-2 glow"
-          >
-            Browse All Tiles <FiArrowRight />
-          </Link>
-        </div>
+      <section className="py-12 px-4 max-w-7xl mx-auto">
+        <Banner />
       </section>
     </div>
   );
