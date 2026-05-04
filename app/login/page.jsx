@@ -40,9 +40,18 @@ export default function LoginPage() {
   const handleGoogle = async () => {
     setGoogleLoading(true);
     try {
-      await signIn.social({ provider: "google", callbackURL: "/" });
-    } catch {
-      toast.error("Google sign-in failed.");
+      const { error } = await signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+      if (error) {
+        console.error("Google Sign-in Error:", error);
+        toast.error(error.message || "Google sign-in failed.");
+        setGoogleLoading(false);
+      }
+    } catch (err) {
+      console.error("Google Sign-in Catch:", err);
+      toast.error("An unexpected error occurred.");
       setGoogleLoading(false);
     }
   };

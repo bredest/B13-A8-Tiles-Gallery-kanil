@@ -5,7 +5,7 @@ import Link from "next/link";
 import TileCard from "@/components/TileCard";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import tilesData from "@/data/tiles.json";
-import { FiChevronRight, FiFilter, FiX } from "react-icons/fi";
+import { FiChevronRight, FiFilter, FiX, FiSearch } from "react-icons/fi";
 
 const CATEGORIES = {
   Room: ["Bathroom", "Kitchen", "Living Room", "Outside"],
