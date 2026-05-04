@@ -39,13 +39,28 @@ function TilesContent() {
       const matchSearch = !q || 
         tile.title.toLowerCase().includes(q) || 
         tile.material.toLowerCase().includes(q) ||
+        tile.style.toLowerCase().includes(q) ||
         tile.tags.some(t => t.toLowerCase().includes(q));
 
-      const matchRoom = activeFilters.Room === "All" || tile.tags.includes(activeFilters.Room);
-      const matchType = activeFilters.Type === "All" || tile.material.includes(activeFilters.Type);
-      const matchStyle = activeFilters.Style === "All" || tile.tags.includes(activeFilters.Style);
-      const matchFinish = activeFilters.Finish === "All" || tile.tags.includes(activeFilters.Finish);
-      const matchColour = activeFilters.Colour === "All" || tile.tags.includes(activeFilters.Colour);
+      const matchRoom = activeFilters.Room === "All" || 
+        tile.tags.some(t => t.toLowerCase() === activeFilters.Room.toLowerCase()) ||
+        tile.style.toLowerCase().includes(activeFilters.Room.toLowerCase());
+        
+      const matchType = activeFilters.Type === "All" || 
+        tile.material.toLowerCase().includes(activeFilters.Type.toLowerCase()) ||
+        (activeFilters.Type === "Natural Stone" && ["marble", "slate", "limestone", "travertine", "stone"].some(s => tile.material.toLowerCase().includes(s) || tile.tags.some(t => t.toLowerCase().includes(s)))) ||
+        tile.tags.some(t => t.toLowerCase().includes(activeFilters.Type.toLowerCase()));
+        
+      const matchStyle = activeFilters.Style === "All" || 
+        tile.tags.some(t => t.toLowerCase().includes(activeFilters.Style.split(' ')[0].toLowerCase())) ||
+        tile.style.toLowerCase().includes(activeFilters.Style.toLowerCase());
+        
+      const matchFinish = activeFilters.Finish === "All" || 
+        (tile.finish && tile.finish.toLowerCase().includes(activeFilters.Finish.toLowerCase())) ||
+        tile.tags.some(t => t.toLowerCase().includes(activeFilters.Finish.toLowerCase()));
+        
+      const matchColour = activeFilters.Colour === "All" || 
+        tile.tags.some(t => t.toLowerCase() === activeFilters.Colour.toLowerCase());
 
       return matchSearch && matchRoom && matchType && matchStyle && matchFinish && matchColour;
     });

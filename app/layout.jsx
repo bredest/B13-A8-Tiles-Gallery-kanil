@@ -1,9 +1,9 @@
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/components/AuthProvider";
+import ClientNavbar from "@/components/ClientNavbar";
 
 const outfitfont = Outfit({ 
   subsets: ["latin"],
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
     <html lang="en" data-theme="tilegallery" className={outfitfont.className} suppressHydrationWarning>
       <body className={`${outfitfont.variable} min-h-screen flex flex-col`}>
         <AuthProvider>
-          <Navbar />
+          <ClientNavbar />
           <main className="flex-1 w-full">{children}</main>
           <Footer />
           <Toaster

@@ -38,11 +38,20 @@ export default function LoginPage() {
   };
 
   const handleGoogle = async () => {
+    console.log("Google login button clicked");
     setGoogleLoading(true);
     try {
+      console.log("Calling signIn.social...");
       const { error } = await signIn.social({
         provider: "google",
         callbackURL: "/",
+      }, {
+        onSuccess: () => {
+          console.log("Sign-in success callback triggered");
+        },
+        onError: (ctx) => {
+          console.error("Sign-in error callback triggered:", ctx);
+        }
       });
       if (error) {
         console.error("Google Sign-in Error:", error);
