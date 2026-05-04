@@ -188,7 +188,7 @@ function TilesContent() {
 
       {/* Mobile Filters Modal */}
       {showMobileFilters && (
-        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm lg:hidden flex justify-end">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm lg:hidden flex justify-end">
           <div className="w-80 bg-[#f4f1ea] h-full overflow-y-auto p-8 animate-slide-left">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-serif font-bold text-[#5c564b]">Filters</h2>
